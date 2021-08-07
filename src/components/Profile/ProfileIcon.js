@@ -7,14 +7,8 @@ import {
 } from 'reactstrap';
 
 
-const ProfileIcon = (props) => {
-	// constructor(props) {
-	// 	super(props);
-	// 	this.toggle = this.toggle.bind(this);
-	// 	this.state = {
-	// 		dropdownOpen: false
-	// 	}
-	// }
+const ProfileIcon = ({onRouteChange}) => {
+	
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
 	const toggle = () => setDropdownOpen(prevState => !prevState);
@@ -31,9 +25,15 @@ const ProfileIcon = (props) => {
 						src="http://tachyons.io/img/logo.jpg"
 						className="br-100 ba h3 w3 dib" alt="avatar" />
 				</DropdownToggle>
-				<DropdownMenu className="b--transparent shadow-5" style={{ marginTop: '20px', backgroundColor: 'rgba(255, 255, 255, 0.5)'}}>
-					<div onClick={toggle}>View Profile</div>
-					<div onClick={toggle}>Sign Out</div>
+				<DropdownMenu 
+					className="b--transparent shadow-5" 
+					style={{
+						marginTop: '20px', 
+						backgroundColor: 'rgba(255, 255, 255, 0.5)'}}
+						right
+					>
+					<DropdownItem onClick={() => onRouteChange('')}>View Profile</DropdownItem>
+					<DropdownItem onClick={() => onRouteChange('signout')}>Sign Out</DropdownItem>
 				</DropdownMenu>
 			</Dropdown>
 		</div>
