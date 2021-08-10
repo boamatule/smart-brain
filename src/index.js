@@ -10,3 +10,7 @@ import './index.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
+
+// ReactDOM.render(<Modal />, document.getElementById('root'));
+// registerServiceWorker();
+
