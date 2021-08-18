@@ -12,33 +12,35 @@ class Profile extends React.Component {
 	}
 
 	onFormChange = (event) => {
-		switch(event.target.name) {
+		switch (event.target.name) {
 			case 'user-name':
-				this.setState({name: event.target.value})
+				this.setState({ name: event.target.value })
 				break;
 			case 'user-age':
-				this.setState({age: event.target.value})
-			break;
+				this.setState({ age: event.target.value })
+				break;
 			case 'user-pet':
-				this.setState({pet: event.target.value})
-			break;
-		default:
-			return;
+				this.setState({ pet: event.target.value })
+				break;
+			default:
+				return;
 		}
 	}
 
 	onProfileUpdate = (data) => {
 		fetch(`http://localhost:3000/profile/${this.props.user.id}`, {
 			method: 'post',
-			headers: {'Content-Type': 'application/json'},
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': window.sessionStorage.getItem('token')
+			},
 			body: JSON.stringify({ formInput: data })
 		}).then(resp => {
-			this.props.toggleModal();
-			this.props.loadUser({ ...this.props.user, ...data});	
-		}).then(resp => {
-			this.props.toggleModal();
-			this.props.loadUser({ ...this.props.user, ...data});
-		}) .catch(console.log)
+			if (resp.status === 200 || resp.status === 304) {
+				this.props.toggleModal();
+				this.props.loadUser({ ...this.props.user, ...data });
+			}
+		}).catch(console.log)
 	}
 
 
@@ -84,23 +86,23 @@ class Profile extends React.Component {
 							id="pet"
 						/>
 						<div className='mt4' style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-							<button 
-								onClick={() => this.onProfileUpdate({name, age, pet})}
+							<button
+								onClick={() => this.onProfileUpdate({ name, age, pet })}
 								className='b pa2 grow pointer hover-white w-40 bg-light-blue b--black-20'>
 								Save
 							</button>
-							<button 
-								className='b pa2 grow pointer hover-white w-40 bg-light-red b--black-20' 
+							<button
+								className='b pa2 grow pointer hover-white w-40 bg-light-red b--black-20'
 								onClick={this.toggleModal}>
 								Cancel
 							</button>
 						</div>
 					</main>
-					<div 
-						className='modal-close' 
+					<div
+						className='modal-close'
 						onClick={this.toggleModal}>
-							&times;
-						</div>
+						&times;
+					</div>
 				</article>
 			</div>
 		)
